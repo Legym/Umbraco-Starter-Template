@@ -11,11 +11,12 @@ Quickly have all the dependencies needed for starter projects.
 2. Choose ASP.NET Web Application > Empty
 3. Tools > NuGet Package Manager > Package Manager Console
 4. Run command: Install-Package UmbracoCms
-5. Load default database into SQL Server Management Studio.
+5. Load default database into SQL Server Management Studio. (C:\Program Files\Microsoft SQL Server\MSSQL12.MSSQLSERVER\MSSQL\DATA)
 6. Build project and follow Umbraco instructions. Install a blank theme and choose defualt database from SQLSMS in step 5.
-7. Download Repo, named Umbraco-Starter-Project, and merge files into new Project
-8. Create new Github Repo for new Project
-9. Run NPM commands `Gulp pip` and `npm install`
+7. Install SmartBlog from nuget 'packages folder' in developer section in BackOffice
+8. Download Repo, named Umbraco-Starter-Project, and merge files into new Project
+9. Create new Github Repo for new Project
+10. Run NPM commands `Gulp pip` and `npm install`
 
 # What does Umbraco-Starter-Project do?
 1. Loads dependencies
