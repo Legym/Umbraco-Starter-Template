@@ -1,0 +1,63 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using Umbraco.Web;
+@{
+    // Get this blogs root, does not use an id because there may be more thanone blog
+    IPublishedContent objBlogRoot = Model.Content.AncestorOrSelf("SmartBlogBlog");
+
+    // Get the posts in this blog
+    IEnumerable<IPublishedContent> colPosts = objBlogRoot.Descendants("SmartBlogPost").OrderBy("updateDate");
+
+    // Create the tag dictionary
+    Dictionary<String, Int32> colCategories = new Dictionary<String, Int32>();
+
+    // Loop through all the posts then loop through their tags to add to the tag dictionary
+    foreach (IPublishedContent objPost in colPosts)
+    {
+        String[] colCategoryNames;
+        if (!String.IsNullOrEmpty(objPost.GetPropertyValue<String>("smartBlogCategory")))
+        {
+            colCategoryNames = objPost.GetPropertyValue<String>("smartBlogCategory").Split(',');
+        }
+        else
+        {
+            colCategoryNames = new String[0];
+        }
+
+        foreach (String strCategory in colCategoryNames)
+        {
+            if (colCategories.ContainsKey(strCategory))
+            {
+                colCategories[strCategory]++;
+            }
+            else
+            {
+                colCategories.Add(strCategory, 1);
+            }
+        }
+    }
+
+    /* Shows on Tablet and higher */
+    <li class="inner-template-desktop-sidebar">
+        <div class="responsive-accordion-head accordion-default active">
+            <p><span><i>plus</i></span></p>
+            <h3 class="sidebar_header">View By Category</h3>
+        </div>
+        <div class="link-cnt responsive-accordion-panel accordion-default active">
+            @foreach (KeyValuePair<string, int> objCategory in colCategories)
+            {
+                <a class="smartCategory" href="@Umbraco.NiceUrl(objBlogRoot.Id)?category=@objCategory.Key">@objCategory.Key</a>
+            }
+        </div>
+    </li>
+
+    /* Shows on only on mobile */
+    <select class="inner-template-mobile-sidebar"  onChange="document.location = this.value">
+        <option value="#">Search By Category</option>
+        @foreach (KeyValuePair<string, int> objCategory in colCategories)
+        {
+            <option value="?category=@objCategory.Key">@objCategory.Key</option>
+        }
+    </select>
+
+}

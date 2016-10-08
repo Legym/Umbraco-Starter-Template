@@ -1,0 +1,168 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using Umbraco.Web;
+@using umbraco.NodeFactory;
+@using Umbraco.Core.Models;
+@using Umbraco.Core.Dynamics;
+@{
+    IPublishedContent objBlogRoot = Model.Content.AncestorOrSelf("SmartBlogBlog");
+    IEnumerable<IPublishedContent> colResults = null;
+
+
+    /*
+        Added by Mygel Bergstresser
+        Pulls a default Image.
+     */
+    var media = Umbraco.Media(1076);
+
+
+    Boolean blnUseSummaryOnList = Boolean.Parse(SmartBlogLibraries.Global.GetConfig().GetElementsByTagName("useSummaryOnList")[0].InnerText);
+
+    // Get posts by search query if specified, else just get all the posts.
+    if (!String.IsNullOrEmpty(Request.QueryString["q"]))
+    {
+        colResults = SmartBlogLibraries.Helpers.Search.SearchSite()
+            .Select(x => Umbraco.TypedContent(x.Id))
+            .Where(x =>
+                x != null
+                && x.Path.Split(',').Contains(objBlogRoot.Id.ToString())
+                && x.DocumentTypeAlias == "SmartBlogPost");
+    }
+    else
+    {
+        colResults = Model.Content.DescendantsOrSelf("SmartBlogPost");
+    }
+
+    if (colResults != null && colResults.Count() > 0)
+    {
+        // Refine posts by tag
+        if (!String.IsNullOrEmpty(Request.QueryString["tag"]))
+        {
+            colResults = colResults.Where(x => x.GetPropertyValue<String>("smartBlogTags").Split(',').Contains(Request.QueryString["tag"]));
+        }
+
+        // Refine posts by author
+        if (!String.IsNullOrEmpty(Request.QueryString["author"]))
+        {
+            colResults = colResults.Where(x =>
+                (!String.IsNullOrEmpty(x.GetPropertyValue<String>("smartBlogAuthor"))
+                    && x.GetPropertyValue<String>("smartBlogAuthor").Split(',').Contains(Request.QueryString["author"]))
+                || (Request.QueryString["author"] == SmartBlogLibraries.Global.GetConfig().GetElementsByTagName("defaultAuthor")[0].InnerText
+                    && String.IsNullOrEmpty(x.GetPropertyValue<String>("smartBlogAuthor"))));
+        }
+
+        // Refine posts by category
+        if (!String.IsNullOrEmpty(Request.QueryString["category"]))
+        {
+            colResults = colResults.Where(x => !String.IsNullOrEmpty(x.GetPropertyValue<String>("smartBlogCategory"))
+                && x.GetPropertyValue<String>("smartBlogCategory").Split(',').Contains(Request.QueryString["category"]));
+        }
+
+        // If there aren't any results, we notify the client.
+        if (colResults.Count() > 0)
+        {
+            // Calculate paging
+            Int32 intPage = 1;
+            if (!Int32.TryParse(Request.QueryString["p"], out intPage))
+            {
+                intPage = 1;
+            }
+            UInt16 intItemsPerPage = 5;
+            Int32 intSkip = (intPage - 1) * intItemsPerPage;
+            Int32 intResultCount = colResults.Count();
+
+            /*
+                Render paging
+                There are 2 items on 1 pages.
+            */
+
+            @*@Html.Raw(SmartBlogLibraries.Helpers.Listing.RenderPaging(intPage, intResultCount, intItemsPerPage))*@
+
+            // Render posts
+            <div class="postList">
+
+                @foreach (IPublishedContent objPost in colResults
+                                                                .OrderByDescending(x => x.GetPropertyValue<DateTime>("smartBlogDate"))
+                                                                .Skip(intSkip)
+                                                                .Take(intItemsPerPage))
+                {
+                    String strAuthor = !String.IsNullOrEmpty(objPost.GetPropertyValue<String>("smartBlogAuthor"))
+                        ? objPost.GetPropertyValue<String>("smartBlogAuthor")
+                        : SmartBlogLibraries.Global.GetConfig().GetElementsByTagName("defaultAuthor")[0].InnerText;
+
+                    try
+                    {
+
+                        if (objPost.GetPropertyValue<bool>("disableEnable"))
+                        {
+                            <div class="post">
+
+                                <div class="post-image">
+                                    <img src="@media.Url" />
+                                    <span>@(objPost.GetPropertyValue<DateTime>("smartBlogDate").ToString("MMM dd"))</span>
+                                </div>
+
+                                <div class="post-metadata">
+                                    <h3>
+                                        @objPost.Name
+                                    </h3>
+
+                                    @if (blnUseSummaryOnList)
+                                {
+                                        <p>@Html.Raw(objPost.GetPropertyValue<String>("smartBlogSummary"))</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@Html.Raw(objPost.GetPropertyValue<String>("smartBlogSummary"))</p>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                        <div class="post">
+
+                            <div class="post-image">
+                                <a href="@Umbraco.NiceUrl(objPost.Id)"><img src="@media.Url" /></a>
+                                <span>@(objPost.GetPropertyValue<DateTime>("smartBlogDate").ToString("MMM dd"))</span>
+                            </div>
+
+                            <div class="post-metadata">
+                                <h3>
+                                    <a href="@Umbraco.NiceUrl(objPost.Id)" title="@objPost.Name">@objPost.Name</a>
+                                </h3>
+
+                                @if (blnUseSummaryOnList)
+                                {
+                                    <p>@Html.Raw(objPost.GetPropertyValue<String>("smartBlogSummary"))</p>
+                                }
+                                else
+                                {
+                                    <p>@Html.Raw(objPost.GetPropertyValue<String>("smartBlogSummary"))</p>
+                                }
+                                @*Enable to display author name *@
+                                @*<a href="?author=@strAuthor">@strAuthor</a>*@
+
+
+                            </div>
+                        </div>
+                        }
+                    }
+                    catch (Exception) { }
+                }
+            </div>
+
+            /*
+                Render paging
+                There are 2 items on 1 pages.
+            */
+            @Html.Raw(SmartBlogLibraries.Helpers.Listing.RenderPaging(intPage, intResultCount, intItemsPerPage))
+
+            return;
+        }
+    }
+
+    <text>No results were found using the parameters you specified in @Model.Content.Name, try another search.</text>
+}
+
+

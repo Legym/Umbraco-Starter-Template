@@ -1,0 +1,68 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using umbraco.MacroEngines;
+@using System.Xml;
+@{
+    // Get the first blog found to use as rss
+    IPublishedContent objBlogRoot = Model.Content.AncestorOrSelf("SmartBlogBlog");
+    
+    // Get posts
+    IEnumerable<IPublishedContent> colPosts = objBlogRoot.Descendants("SmartBlogPost").OrderBy("smartBlogDate desc");
+    
+    // Get the latest post date
+    DateTime dtmPostDate = colPosts.Count() == 0 
+        ? DateTime.Now 
+        : colPosts.FirstOrDefault().GetPropertyValue<DateTime>("smartBlogDate");
+    
+    // Clear any current response
+    Response.Clear();
+    // Set new response type to rss
+    Response.ContentType = "text/xml";
+    
+    // Create the feedwriter and start document
+    XmlTextWriter objFeedWriter = new XmlTextWriter(Response.OutputStream, System.Text.Encoding.UTF8);
+
+    objFeedWriter.WriteStartDocument();
+
+    // Set up/declare the rss content
+    objFeedWriter.WriteStartElement("rss");
+    objFeedWriter.WriteAttributeString("version", "2.0");
+
+    // Output the channel information
+    objFeedWriter.WriteStartElement("channel");
+    objFeedWriter.WriteElementString("title", Model.Content.GetPropertyValue<String>("smartBlogRssTitle"));
+    objFeedWriter.WriteElementString("description", Model.Content.GetPropertyValue<String>("smartBlogRssDescription"));
+    objFeedWriter.WriteElementString("copyright", Model.Content.GetPropertyValue<String>("smartBlogRssCopyright"));
+
+    if (Model.Content.GetProperty("smartBlogRssImage").Value != null)
+    {
+        objFeedWriter.WriteElementString("image", Model.Content.GetPropertyValue<String>("smartBlogRssImage"));
+    }
+
+    objFeedWriter.WriteElementString("link", Umbraco.NiceUrlWithDomain(objBlogRoot.Id));
+    objFeedWriter.WriteElementString("lastBuildDate", dtmPostDate.ToString("ddd, dd MMMM yyyy HH:mm:ss"));
+    objFeedWriter.WriteElementString("pubDate", dtmPostDate.ToString("ddd, dd MMMM yyyy HH:mm:ss"));
+
+    // Output the posts information
+    foreach (IPublishedContent objPost in colPosts)
+    {
+        objFeedWriter.WriteStartElement("item");
+        objFeedWriter.WriteElementString("title", objPost.GetPropertyValue<String>("smartBlogTitle"));
+        objFeedWriter.WriteElementString("author", objPost.GetPropertyValue<String>("smartBlogAuthor"));
+        objFeedWriter.WriteElementString("comments", Umbraco.NiceUrlWithDomain(objPost.Id));
+        objFeedWriter.WriteElementString("description", objPost.GetPropertyValue<String>("smartBlogSummary"));
+        objFeedWriter.WriteElementString("link", Umbraco.NiceUrlWithDomain(objPost.Id));
+        objFeedWriter.WriteElementString("guid", Umbraco.NiceUrlWithDomain(objPost.Id));
+        objFeedWriter.WriteElementString("pubDate", objPost.GetPropertyValue<DateTime>("smartBlogDate").ToString("ddd, dd MMMM yyyy HH:mm:ss"));
+        objFeedWriter.WriteEndElement();
+    }
+
+    // Finnish and end the rss feed
+    objFeedWriter.WriteEndElement();
+    objFeedWriter.WriteEndElement();
+    objFeedWriter.WriteEndDocument();
+    objFeedWriter.Flush();
+    objFeedWriter.Close();
+
+    // Finish the response
+    Response.End();
+}

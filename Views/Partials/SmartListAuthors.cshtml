@@ -1,0 +1,43 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using Umbraco.Web;
+@{
+    // Get this blogs root, does not use an id because there may be more thanone blog
+    IPublishedContent objBlogRoot = Model.Content.AncestorOrSelf("SmartBlogBlog");
+    // Get the posts in this blog
+    IEnumerable<IPublishedContent> colPosts = objBlogRoot.Descendants("SmartBlogPost");
+
+    //List of authors
+    List<String> colAuthors = new List<String>();
+
+    // Loop through the posts to retrieve the authors and generate a list without duplicating them.
+    foreach (IPublishedContent objPost in colPosts)
+    {
+        String strAuthor;
+        if (!String.IsNullOrEmpty(objPost.GetPropertyValue<String>("smartBlogAuthor")))
+        {
+            strAuthor = objPost.GetPropertyValue<String>("smartBlogAuthor");
+        }
+        else
+        {
+            strAuthor = SmartBlogLibraries.Global.GetConfig().GetElementsByTagName("defaultAuthor")[0].InnerText;
+        }
+
+        if (!colAuthors.Contains(strAuthor))
+        {
+            colAuthors.Add(strAuthor);
+        }
+    }
+
+    <div class="sidebar-authors">
+        <span class="smartSubTitle">Authors</span>
+        <ul>
+            @foreach (String strAuthor in colAuthors)
+            {
+            <li>
+                <a href="@Umbraco.NiceUrl(objBlogRoot.Id)?author=@strAuthor">@strAuthor</a>
+            </li>
+            }
+        </ul>
+    </div>
+}

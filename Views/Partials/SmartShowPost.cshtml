@@ -1,0 +1,29 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using Umbraco.Web;
+@using umbraco.MacroEngines;
+@{
+    IPublishedContent objNextPage = SmartBlogLibraries.Helpers.Listing.GetNextNode(Model.Content);
+    IPublishedContent obPreviousPage = SmartBlogLibraries.Helpers.Listing.GetPreviousNode(Model.Content);
+
+    String strAuthor = !String.IsNullOrEmpty(Model.Content.GetPropertyValue<String>("smartBlogAuthor"))
+        ? Model.Content.GetPropertyValue<String>("smartBlogAuthor")
+        : SmartBlogLibraries.Global.GetConfig().GetElementsByTagName("defaultAuthor")[0].InnerText;
+
+    @*if (objNextPage != null)
+    {
+        <a href="@Umbraco.NiceUrl(objNextPage.Id)">Next Post</a>
+    }
+    if (obPreviousPage != null)
+    {
+        <a href="@Umbraco.NiceUrl(obPreviousPage.Id)">Previous Post</a>
+    }*@
+
+    <div id="postPageBody">
+        <h2>@Model.Content.Name</h2>
+            By <a href="@Umbraco.NiceUrl(Model.Content.AncestorOrSelf("SmartBlogBlog").Id)?author=@strAuthor">@strAuthor</a> at @(Model.Content.GetPropertyValue<DateTime>("smartBlogDate").ToString("MMM dd, yyyy"))
+        <div id="share-mobile" class="share-mobile-style"></div>
+        @Html.Raw(Model.Content.GetPropertyValue<String>("smartBlogBody"))
+
+    </div>
+}

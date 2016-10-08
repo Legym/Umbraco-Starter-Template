@@ -1,0 +1,420 @@
+html, body { height: auto; }
+
+/* Mmenu plugin styles*/
+.mm-listview {
+
+    > li > a {
+        padding: 15px 10px 15px 20px;
+        font-size: 1.4em;
+        letter-spacing: 0.06em;
+    }
+
+    > li:not(.mm-divider):after {
+        border-bottom-width: 0;
+    }
+
+
+}
+
+.mm-panels {
+
+    .mm-hassearch {
+        padding-top: 100px !important;
+
+        .mm-search {
+            top: 55px !important;
+        }
+
+        input {
+            border-radius: 0;
+            background-color: white;
+            border: 1px solid #d0d0d0 !important;
+            padding: 15px;
+        }
+    }
+
+
+}
+
+.breadcrumbs {
+    display: none;
+    
+    @include breakpoint(medium) {
+        display: block;
+        float: right;
+    }
+
+    .subpage-about & {
+        float: left;
+    }
+
+    li {
+        font-size: 1em;
+    }
+}
+
+.header {
+    position: fixed;
+    height: 60px;
+    width: 100%;
+    background-color: #111;
+    z-index: 2;
+    top: 0;
+
+    @include breakpoint(large) {
+        background-color: #111;
+        height: 73px;
+        position: fixed;
+        top: 0;
+        z-index: 99;
+        width: 100%;
+    }
+
+    .logo {
+        width: 120px;
+        padding-top: 10px;
+        float: left;
+
+        @include breakpoint(large) {
+            padding: inherit;
+            width: 365px;
+            
+        }
+
+        .mobile-logo {
+            display: block;
+
+            @include breakpoint(large) {
+                display: none;
+            }
+        }
+
+        .desktop-logo {
+            display: none;
+
+            @include breakpoint(large) {
+                display: block;
+                height: 80px;
+            }
+        }
+    }
+
+    #menu-mobile {
+        display: block;
+        visibility: hidden;
+
+        @include breakpoint(medium) {
+            display: none;
+        }
+    }
+
+    #desktop-menu {
+        display: none;
+    
+        @include breakpoint(large) {
+           display: inline-block;
+           vertical-align: top;
+           float: right;
+
+            ul {
+                padding: 0;
+                margin: 0;
+                line-height: 73px;
+                float: right;
+
+                li {
+                    display: inline-block;
+
+                    &:nth-last-child(1) {
+                        padding-right: 0;
+                    }
+
+                    &:nth-last-child(1) a:hover:after {
+                        opacity: 0;
+                    }
+                }
+
+                a {
+                    color: white;
+                    padding: 23px 1.58rem;
+                    position: relative;
+                    transition: all .2s ease-in;
+
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        bottom: 18px;
+                        margin: 0 auto;
+                        left: 0;
+                        right: 0;
+                        opacity: 0;
+                        width: 50%;
+                        border-bottom: 2px solid black;
+                        transition: all .25s ease-in;
+                    }
+
+                    &:hover {
+                        color: $primary-color;
+
+                        &:after {
+                            bottom: 15px;
+                            opacity: 1;
+                            width: 50%;
+                            border-bottom: 3px solid $primary-color;
+                        }
+                    }
+                }
+
+
+
+                .menu-active {
+                    color: $primary-color;
+
+                    &:after {
+                        bottom: 15px;
+                        opacity: 1;
+                        width: 50%;
+                        border-bottom: 3px solid $primary-color;
+                    }
+                }
+            }
+        }
+    }
+ 
+    .searchbox {
+
+        @include breakpoint(medium) {
+            position: relative
+        }
+
+		.search-input {
+            position: absolute;
+            opacity: 0;
+            top: 60px;
+            height: 25px;
+            width: 250px; 
+            font-size: 24px;
+            height: 40px;
+            text-indent: 10px;
+            margin: 0 auto;
+            right: 0;
+            transition: all 0.3s linear;  
+            z-index: -1;
+            border: 3px solid rgba(145, 143, 140, 0.2);
+            border-top: 0;   
+		}
+
+		.search-icon i {
+			display: inline-block;
+            vertical-align: baseline;
+            font-size: 1em;
+		}	
+        
+        .search-show {
+            top: 73px;
+            left: inherit;
+            opacity: 1;
+            z-index: 99999;
+            right: 0;       
+            border: 3px solid rgba(145, 143, 140, 0.2);
+            border-top: 0;   
+        }          					
+	}				    																														
+}
+
+.main-content {
+
+    @include breakpoint(medium) {
+        min-height: 700px;
+    }
+
+    .content-padding {
+        padding-top: 30px;
+
+        .subpage-blog & {
+            padding-bottom: 30px;
+        }
+    }
+}
+
+.footer {
+    margin-top: 60px;
+    padding: 20px 0 7px 0;
+    background-color: #111;
+
+    /* Logo */
+    .footer-logo {
+        display: none;
+
+        @include breakpoint(small) {
+            width: 100%;
+            height: 120px;
+        }
+
+        @include breakpoint(medium) {
+            display: block;
+            height: 120px;
+            width: 100%;
+        }
+
+        @include breakpoint(large) {
+            width: 325px;
+        }
+
+    }
+
+    /* Navigation  */
+    .footer-navigation {
+        text-align: center;
+        margin-bottom: 25px;
+        
+        @include breakpoint(medium) {
+            text-align: inherit;
+            margin-bottom: 0;
+            max-width: 190px;
+        }
+
+        @include breakpoint(large) {
+            float: right;
+            max-width: inherit;
+        }
+
+        ul {
+            margin: 0;
+
+            @include breakpoint(medium) {
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+            }
+
+            @include breakpoint(large) {
+                position: relative;
+                left: 50px;
+                -webkit-column-width: 120px;
+                -moz-column-width: 120px;
+                column-width: 120px;
+            }
+
+        }
+
+        li {
+            text-decoration: none;
+            list-style: none;
+        }
+
+        a {
+            color: white;
+            transition: all .2s ease-in;
+
+            &:hover, &:focus {
+                color: $primary-color;
+            }
+        }
+    }
+
+
+    /* Social Media / Button */
+    .footer-contact {
+
+        @include breakpoint(medium) {
+            min-width: 185px;
+            float: right;
+        }
+
+        ul {
+            text-align: center;
+            margin: 0 0 25px 0;
+
+            @include breakpoint(medium) {
+                text-align: inherit;
+                margin-bottom: 1rem;
+                margin-left: 1.25rem;
+            }
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 15px;
+        }
+        
+        i {
+            color: white;
+            transition: all .2s ease-in;
+
+            &:hover, &:focus {
+                color: $primary-color;
+            }
+        }
+
+    }
+
+    /* Credits */
+    .footer-copyright {
+        border-top: 1px solid white;
+        margin-top: 15px;
+        padding-top: 10px;
+        color: white;
+        text-align: center;
+
+        @include breakpoint(medium) {
+            text-align: inherit;
+        }
+
+        p {
+            margin: 0;
+            color: white;
+            font-size: 16px;
+
+            @include breakpoint(medium) {
+                display: inline-block;
+                vertical-align: top;                
+            }
+        }
+
+
+        .author {
+
+            @include breakpoint(medium) {
+                float: right;
+            }
+
+            span {
+                color: $primary-color;
+            }
+        }
+    }
+}
+
+#to-top {
+	display: none;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.298039);
+	border: 0;
+	font-size: 32px;
+	text-transform: none;
+	margin: 20px;
+	padding: 10px 10px 15px 10px;
+	position: fixed;
+	bottom: -100px;
+	right: 0;
+	z-index: 999;
+	transition: all .4s ease-in-out;
+
+    @include breakpoint(medium) {
+        padding: 20px 20px 25px 20px;
+    }
+
+	.fa {
+	    display: block;
+	    font-size: 16px;
+	    color: white;
+	}
+
+	&.in {
+	    bottom: 0;
+	}
+}
+
+

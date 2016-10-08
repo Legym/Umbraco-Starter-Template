@@ -1,0 +1,62 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+<header class="header mm-slideout">
+    <a id="top"></a>
+    <div class="row">
+        <div class="small-12 columns">
+
+            <div class="header-container">
+                <a href="/" class="logo">
+
+                    <!-- Mobile Logo -->
+                    <div class="mobile-logo">
+                        <img src="#" alt=""/>
+                    </div>
+
+
+                    <!-- Desktop Logo -->
+                    <div class="desktop-logo">
+                        <img src="#" alt=""/>
+                    </div>
+                </a>
+
+                <a id="nav-toggle" href="#menu-mobile">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+
+                <nav id="menu-mobile">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about/">About</a></li>
+                        <li><a href="/portfolio/">Portfolio</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                        <li><a href="/contact/">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <nav id="desktop-menu">
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Portfolio</a></li>
+                        <li><a href="/blog/">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li>
+                            <div class="searchbox">
+                                <input id="srch-input" class="search-input" placeholder="Site Search" value="" onkeypress="if (event.keyCode == 13) location = '/search-results?Keywords=' + document.getElementById('srch-input').value" />
+
+                                <a href="#/" class="search-icon">
+                                    <i class="fa fa-lg fa-search"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+

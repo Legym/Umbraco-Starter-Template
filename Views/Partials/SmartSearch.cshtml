@@ -1,0 +1,9 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using Umbraco.Web;
+@{
+    <form id="smartBlogSearchForm">
+        <input type="text" id="smartSearchInput" value="@Request.QueryString["q"]" placeholder="Search" />
+        <input type="submit" id="smartSearchButton" value="Go" />
+    </form>
+}

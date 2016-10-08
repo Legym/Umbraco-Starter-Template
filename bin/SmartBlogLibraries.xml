@@ -1,0 +1,399 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmartBlogLibraries</name>
+    </assembly>
+    <members>
+        <member name="T:SmartBlogLibraries.Controllers.CommentFormSurfaceController">
+            <summary>
+            Comment form controller deals with uBlogsy comment forms.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Controllers.CommentFormSurfaceController.SubmitSmartBlogComment(SmartBlogLibraries.Models.SmartBlogCommentFormModel)">
+            <summary>
+            Submits a SmartBlog comment to be saved in umbraco.
+            </summary>
+        </member>
+        <member name="T:HtmlExtensions">
+            <summary>
+            A collection of MVC string extensions.
+            </summary>
+        </member>
+        <member name="M:HtmlExtensions.ClientIdFor``2(System.Web.Mvc.HtmlHelper{``0},System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets the client id for the specified MVC element
+            </summary>
+            <returns>The client id for the specified MVC model item.</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Global">
+            <summary>
+            Generic globally used items/functions.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Global.objUmbHelper">
+            <summary>
+            Umbraco helper.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Global.GetConfig">
+            <summary>
+            Will get the smart blog config from "/config/SmartBlog.config".
+            </summary>
+            <returns>Contents of smartblog config.</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Helpers.Cms">
+            <summary>
+            A collection of Umbraco helpers.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.Cms.author">
+            <summary>
+            The default user used for creating new documents etc.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.Cms.Id">
+            <summary>
+            The current page id.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.Cms.LogMessage">
+            <summary>
+            Logs the specified log type and message into the database. Must specify 'umbraco.BusinessLogic.LogTypes'.
+            Accepts 'Error', 'Debug' or 'Custom'.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Cms.CreateContent(System.String,System.String,System.Int32,System.Collections.Generic.Dictionary{System.String,System.Object},System.Boolean,System.Int32)">
+            <summary>
+            Creates a content node within Umbraco, publishes it and returns it.
+            </summary>
+            <param name="name">The name of this content.</param>
+            <param name="documentTypeAlias">The alias of the document type to assign to this content.</param>
+            <param name="parentId">The id of the node to create this content under.</param>
+            <param name="properties">A Dictionary of properties, 'property name, property value'.</param>
+            <param name="publish">Publish or just save this content.</param>
+            <param name="author">The author of this document, ignore if not needed.</param>
+            <returns>Returns the IContent object created. If working with this item in the front end, make sure to use IPublishedContent.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Cms.DeleteContentNode(System.Int32)">
+            <summary>
+            Deletes an existing Umbraco node.
+            </summary>
+            <returns>A boolean representing the success of the node deletion.</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Helpers.Conversion">
+            <summary>
+            A collection of conversion helpers.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Conversion.ToYesNo``1(System.Boolean)">
+            <summary>
+            Converts a boolean value to type specified when calling this generic type.
+            </summary>
+            <param name="input">The input value can be in any understandable format.</param>
+            <returns>Returns on object relative to the type specified when calling this generic type. If an error occurs, the default for that type will be returned.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Conversion.TrySubString(System.String,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Converts a string to a shorter string using a start point and a length.
+            </summary>
+            <param name="str">The input string to be shortened.</param>
+            <param name="start">The character to start at.</param>
+            <param name="length">The number of characters to take after the start.</param>
+            <param name="addEllipsis">Adds three dots (ellipsis) to the end of the returned string to show it has been shortened.</param>
+            <returns>A shortened version of the input string.</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Helpers.DateTime">
+            <summary>
+            A collection of date time helpers.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatNormal">
+            <summary>
+            When used in DateTime.ToString, returns a normal date.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatNormalWithTime">
+            <summary>
+            When used in DateTime.ToString, returns a normal date with time.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatShort">
+            <summary>
+            When used in DateTime.ToString, returns a short date.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatShortWithTime">
+            <summary>
+            When used in DateTime.ToString, returns a short date with time.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatShortWithTimeAndSeconds">
+            <summary>
+            When used in DateTime.ToString, returns a short date with time and seconds.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatLong">
+            <summary>
+            When used in DateTime.ToString, returns a long date.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatLongWithTime">
+            <summary>
+            When used in DateTime.ToString, returns a long date with time.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatLongWithTimeAndSeconds">
+            <summary>
+            When used in DateTime.ToString, returns a long date with time and seconds.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatOnlyTime">
+            <summary>
+            When used in DateTime.ToString, returns only the time.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatOnlyTimeWithSeconds">
+            <summary>
+            When used in DateTime.ToString, returns only the time with seconds.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatOnlyMonthAndYear">
+            <summary>
+            When used in DateTime.ToString, returns only the month and year.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.DateTime.DateFormatOnlyMonthAndDay">
+            <summary>
+            When used in DateTime.ToString, returns only the month and day.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.DateTime.IsSameDay(System.DateTime,System.DateTime)">
+            <summary>
+            Determines if two dates are on the same day ignoring time.
+            </summary>
+            <param name="datetime1">The first datetime to compare with the second.</param>
+            <param name="datetime2">The second datetime to compare with the first.</param>
+            <returns>A boolean value, true if the two dates are on the same day, otherwise returns false.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.DateTime.ParseTwitterTime(System.String)">
+            <summary>
+            Parse a twitter date.
+            </summary>
+            <param name="date">Input twitter date string.</param>
+            <returns>Datetime</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Helpers.Http">
+            <summary>
+            A collection of helpers related to http.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.Http.domain">
+            <summary>
+            The domain this website is running on.
+            </summary>
+        </member>
+        <member name="F:SmartBlogLibraries.Helpers.Http.session">
+            <summary>
+            The current session.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Http.GetUrlWithDomainPrefix(System.String)">
+            <summary>
+            Appends the current website domain to a url if it doesn't already contain the domain.
+            </summary>
+            <param name="url">The original url to add the domain to.</param>
+            <returns>The original input string with the current website domain added to the beginning.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Http.ReplaceQueryString(System.String,System.String)">
+            <summary>
+            Replaces a value in the current query string
+            </summary>
+            <param name="queryString">The query string to add or replace in the current query string</param>
+            <param name="value">The value of the new query string.</param>
+            <returns>A string with the new query string values inserted/replaced.</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Helpers.Listing">
+            <summary>
+            A collection of listing helpers.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.GetRandomNumber(System.Int32,System.Int32)">
+            <summary>
+            Gets a random integer between two values that's different every time and returns it.
+            </summary>
+            <param name="intMin">The minimum integer value to return.</param>
+            <param name="intMax">The maximum integer value to return.</param>
+            <returns>A random integer between the given values.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.GetNextNode(Umbraco.Core.Models.IPublishedContent)">
+            <summary>
+            Gets the post in front of the current one.
+            </summary>
+            <param name="objCurrent">The current node.</param>
+            <returns>The next node to the current one.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.GetPreviousNode(Umbraco.Core.Models.IPublishedContent)">
+            <summary>
+            Gets the post behind the current one.
+            </summary>
+            <param name="objCurrent">The current node.</param>
+            <returns>The next node to the current one.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.GetNodeSiblings(Umbraco.Core.Models.IPublishedContent,System.Boolean)">
+            <summary>
+            Gets all nodes which are not hidden by umbracoNaviHide and orders them by reverse date.
+            </summary>
+            <param name="objCurrent">The current page.</param>
+            <param name="blnSameDoctype">Optional: Defines whether or not to select nodes of the same node type.</param>
+            <returns>A list of the current nodes siblings with the same document type.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.GetIndexOf(System.Collections.Generic.IEnumerable{Umbraco.Core.Models.IPublishedContent},Umbraco.Core.Models.IPublishedContent)">
+            <summary>
+            Gets the index of the current node in the list of siblings.
+            </summary>
+            <param name="colSiblings">The list of nodes that contains 'current'</param>
+            <param name="objCurrent">The node to find the index of in 'siblings'</param>
+            <returns>The index of a node in a node list.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.NumberOfPages(System.Int32,System.Int32)">
+            <summary>
+            Calculates the number of pages from number of items and items per page
+            </summary>
+            <param name="intNumberOfItems">The number of items to be listed.</param>
+            <param name="intItemsPerPage">How many items can be listed on each page.</param>
+            <returns>A string with the new query string values inserted/replaced.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.RenderPaging(System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Renders a paging bar from predefined values.
+            </summary>
+            <param name="intCurrentPage">The current page number.</param>
+            <param name="intTotalItems">How many items are listed in total.</param>
+            <param name="intItemsPerPage">How many items are listed on each page.</param>
+            <param name="intPagesToShow">The number of page links to show.</param>
+            <param name="strClass">Apply an extra class to this paging bar.</param>
+            <param name="blnShowEllipsis">Show ellipsis when there are too many pages to display.</param>
+            <param name="blnPagingSummary">Show a description.</param>
+            <returns>An HtmlString containing the HTML to render a paging bar.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.CreateSelectList(System.String,System.Boolean)">
+            <summary>
+            Creates a new list of SelectListItems, useful for creating a dropdown in MVC forms.
+            </summary>
+            <param name="strCsvItems">A string containing comma separated items.</param>
+            <param name="blnIsIntegerValues">Chooses if the value of each item will be an integer.</param>
+            <returns>A new List of SelectListItems representing the data from csvItems.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Listing.CreateSelectList(System.String[],System.Boolean)">
+            <summary>
+            Creates a new list of SelectListItems, useful for creating a dropdown in MVC forms.
+            </summary>
+            <param name="colItems">An array of strings to be added to the new List.</param>
+            <param name="blnIsIntegerValues">Chooses if the value of each item will be an integer.</param>
+            <returns>A new List of SelectListItems representing the data from csvItems.</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Helpers.Mailing">
+            <summary>
+            A collection of email helpers.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Mailing.SendEmail(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Sends an email to a given address.
+            </summary>
+            <param name="toAddress">The email address this email should go to.</param>
+            <param name="fromAddress">The email address this email should be sent from.</param>
+            <param name="replyToAddress">The address that reply emails should go to.</param>
+            <param name="subject">The subject line of the email to be sent.</param>
+            <param name="body">The body string of the email to be sent.</param>
+        </member>
+        <member name="T:SmartBlogLibraries.Helpers.Search">
+            <summary>
+            A collection of search helpers.
+            </summary>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Search.GetSearchTerm">
+            <summary>
+            Gets a search term from the querystring 'q'.
+            </summary>
+            <returns>A string value of the search term.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Search.SearchSite">
+            <summary>
+            Searches the current website using a value automatically retrieved from the querystring 'q'.
+            </summary>
+            <returns>An Examine.iSearchResults list of nodes found.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Search.SearchSite(System.String)">
+            <summary>
+            Searches the current website using the parameter 'searchTerm'.
+            </summary>
+            <param name="searchTerm">A string value used to base the search on.</param>
+            <returns>An Examine.iSearchResults list of nodes found.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Search.SearchSite(System.String,System.String)">
+            <summary>
+            Searches the current website using the parameter 'searchTerm'.
+            </summary>
+            <param name="searchTerm">A string value used to base the search on.</param>
+            <param name="IndexSet">A string value used to define which index set to use.</param>
+            <returns>An Examine.iSearchResults list of nodes found.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Search.SearchSite(System.String,System.String[],System.String,System.String,System.Boolean)">
+            <summary>
+            Searches the current website using the parameter 'searchTerm' and an array of 'searchFields.
+            </summary>
+            <param name="searchTerm">A string value used to base the search on.</param>
+            <param name="searchFields">A string array used to define which fields to search.</param>
+            <param name="collectionName">The name of the collection that should be searched.</param>
+            <param name="indexType">Defines the type of items to search for e.g. media or content using 'IndexTypes.'name''</param>
+            <param name="debug">Output a string of the search. (Not currently used.)</param>
+            <returns>An Examine.iSearchResults list of nodes found.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Search.SearchSite(Examine.SearchCriteria.ISearchCriteria,System.String,System.Boolean)">
+            <summary>
+            Searches a specified colection in the current website using a filter.
+            </summary>
+            <param name="filter">An ISearchCriteria filter used to filter the results.</param>
+            <param name="collectionName">The name of the collection that should be searched.</param>
+            <param name="debug">Output a string of the search. (Not currently used.)</param>
+            <returns>An Examine.iSearchResults list of nodes found.</returns>
+        </member>
+        <member name="M:SmartBlogLibraries.Helpers.Search.SearchBlog(Examine.SearchCriteria.ISearchCriteria@,System.String@)">
+            <summary>
+            Does a search of the blog.
+            </summary>
+            <returns>Search results.</returns>
+        </member>
+        <member name="T:SmartBlogLibraries.Models.SmartBlogCommentFormModel">
+            <summary>
+            The model to be used when adding a comment form to SmartBlog.
+            </summary>
+        </member>
+        <member name="P:SmartBlogLibraries.Models.SmartBlogCommentFormModel.Name">
+            <summary>
+            Name of the person who made the comment.
+            </summary>
+        </member>
+        <member name="P:SmartBlogLibraries.Models.SmartBlogCommentFormModel.Email">
+            <summary>
+            Email of the person who made the comment.
+            </summary>
+        </member>
+        <member name="P:SmartBlogLibraries.Models.SmartBlogCommentFormModel.Website">
+            <summary>
+            Website of the person who made the comment.
+            </summary>
+        </member>
+        <member name="P:SmartBlogLibraries.Models.SmartBlogCommentFormModel.Comment">
+            <summary>
+            Comment of the person who made the comment.
+            </summary>
+        </member>
+        <member name="P:SmartBlogLibraries.Models.SmartBlogCommentFormModel.SecurityQuestion">
+            <summary>
+            The value that should be correct before the form is posted.
+            </summary>
+        </member>
+    </members>
+</doc>

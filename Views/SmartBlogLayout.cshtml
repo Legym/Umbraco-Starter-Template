@@ -1,0 +1,35 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using System.Web.Mvc;
+@{
+    Layout = "_Layout.cshtml";
+
+    /* Only enable the below  if your web server has integrated pipeline mode enabled */
+    // Content type in header, browser prefers it.
+    // HttpContext.Current.Response.Headers.Add("Content-Type", "text/html; charset=utf-8");
+    // Parse 'X-UA-Compatible' in header because page won't validate with it as meta tag
+    // HttpContext.Current.Response.Headers.Add("X-UA-Compatible", "IE=edge");
+
+    @section BodyClass {subpage-blog}
+}
+
+<section id="blog-overview-image" class="about-image">
+    <div class="parallax-wrapper">
+        <span data-bg="/media/1037/negativespace-171.jpg" class="hidden"></span>
+        <div class="parallax-window" data-parallax="scroll" data-ios-fix="true" data-android-fix="true">
+            <div class="row">
+                <div class="parallax-content">
+                    @*<h2>@Umbraco.Field("title", altFieldAlias: "pageName")</h2>*@
+                    <h2>Blog</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="blog-content">
+    <div class="row">
+        @Html.Partial("SmartBreadcrumb")
+        @RenderBody()
+    </div>
+</section>

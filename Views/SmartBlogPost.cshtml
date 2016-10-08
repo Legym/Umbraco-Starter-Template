@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using System.Web.Mvc;
+@{
+    Layout = "SmartBlogPage.cshtml";
+}
+
+<!-- Desktop Sidebar -->
+<div class="medium-3 columns">
+    <div id="blog-sticky" class="blog-sidebar-desktop">
+        <h6>
+            FILTER BY:
+        </h6>
+        <ul class="responsive-accordion">
+            @*@Html.Partial("SmartSearch")*@
+            @Html.Partial("SmartListTags")
+            @*@Html.Partial("SmartListLatestComments")*@
+            @*@Html.Partial("SmartListAuthors")*@
+            @Html.Partial("SmartListCategories")
+            @Html.Partial("SmartArchive")
+        </ul>
+
+        <div class="social-media">
+            <h6>
+                Share:
+            </h6>
+            <div id="share"></div>
+        </div>
+
+    </div>
+</div>
+
+<div class="small-12 large-9 columns blog-main-content blog-detail-post">
+    @Html.Partial("SmartShowPost")
+
+    @Html.Partial("SmartShowComments", new SmartBlog.Comment())
+</div>

@@ -1,0 +1,62 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@{
+    // Get this blogs root, does not use an id because there may be more thanone blog
+    IPublishedContent objBlogRoot = Model.Content.AncestorOrSelf("SmartBlogBlog");
+    
+    // Get the posts in this blog
+    IEnumerable<IPublishedContent> colPosts = objBlogRoot.Descendants("SmartBlogPost");
+    // Create the tag dictionary
+    Dictionary<String, Int32> colTagList = new Dictionary<String, Int32>();
+    
+    // Loop through all the posts then loop through their tags to add to the tag dictionary
+    foreach (IPublishedContent objPost in colPosts.Where(x => !String.IsNullOrEmpty(x.GetPropertyValue<String>("smartBlogTags"))))
+    {
+        foreach (String strTag in objPost.GetPropertyValue<String>("smartBlogTags").Split(','))
+        {
+            if (!String.IsNullOrEmpty(strTag))
+            {
+                if (colTagList.ContainsKey(strTag))
+                {
+                    colTagList[strTag]++;
+                }
+                else
+                {
+                    colTagList.Add(strTag, 1);
+                }
+            }
+        }
+    }
+    
+    
+    
+    // Loop through the tag dictionary showing most used first   
+
+    /* Shows on Tablet and higher */
+    <li class="inner-template-desktop-sidebar">
+        <div class="responsive-accordion-head accordion-default active">
+            <p><span><i>plus</i></span></p>
+            <h3 class="sidebar_header">View By Tag</h3>
+        </div>
+        <div class="link-cnt responsive-accordion-panel accordion-default active">
+            @foreach (KeyValuePair<String, Int32> objTag in colTagList.OrderByDescending(x => x.Value))
+            {
+
+                <a href="@Umbraco.NiceUrl(objBlogRoot.Id)?tag=@objTag.Key">
+                    @objTag.Key
+                </a>
+            }
+        </div>
+    </li>
+
+    /* Shows on only on mobile */
+    <select class="inner-template-mobile-sidebar" onChange="document.location = this.value">
+        <option value="#">View By Tag</option>
+        @foreach (KeyValuePair<String, Int32> objTag in colTagList.OrderByDescending(x => x.Value))
+        {
+            <option value="@Umbraco.NiceUrl(objBlogRoot.Id)?tag=@objTag.Key">@objTag.Key</option>
+        }
+    </select>
+}

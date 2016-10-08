@@ -1,0 +1,49 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using System.Web.Mvc.Html;
+@using Umbraco.Web;
+@using Umbraco.Core.Models;
+@{
+    // Get this blogs root, does not use an id because there may be more than one blog
+    IPublishedContent objBlogRoot = Model.Content.AncestorOrSelf("SmartBlogBlog");
+
+    // Loop through the tag dictionary showing most used first
+    <li class="category blog_sidebar">
+        <div class="responsive-accordion-head accordion-default active">
+            <p><span><i>plus</i></span></p>
+            <h3 class="sidebar_header">Archive</h3>
+        </div>
+
+        <div class="link-cnt responsive-accordion-panel accordion-default active">
+            <ul class="smartArchive">
+                @foreach (IPublishedContent objYear in objBlogRoot.DescendantsOrSelf("SmartBlogYear"))
+            {
+                    <li>
+                        <a href="@Umbraco.NiceUrl(objYear.Id)" title="Posts in @objYear.Name">@objYear.Name</a>
+                        @if (objYear.Children.Count() > 0)
+                        {
+                            <ul style="display: none;">
+                                @foreach (IPublishedContent objMonth in objYear.Children)
+                                {
+                                    <li>
+                                        <a href="@Umbraco.NiceUrl(objMonth.Id)" title="Posts in @objMonth.Name @objYear.Name">@objMonth.Name</a>
+                                        @if (objMonth.Children.Count() > 0)
+                                        {
+                                            <ul style="display: none;">
+                                                @foreach (IPublishedContent objPost in objMonth.Children)
+                                                {
+                                                    <li>
+                                                        <a href="@Umbraco.NiceUrl(objPost.Id)" title="@objPost.Name">@objPost.Name</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+        </div>
+    </li>
+}
